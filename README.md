@@ -5,7 +5,7 @@ This repository contains the code for a grocery store application that utilizes 
 ## Getting Started
 To get started, you'll need to clone the repository to your local machine:
 
-git clone https://github.com/yourusername/your-repo.git
+git clone https://github.com/sh06565/DS2-PROJECT-23.git
 
 ## Features
 The grocery store application has the following features:
