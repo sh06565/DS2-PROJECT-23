@@ -1,5 +1,5 @@
 import pandas as pd
-
+import time 
 # define the exponential search function
 def exponential_search(arr, x):
     if arr[0] == x:
@@ -51,8 +51,14 @@ print(f"You have selected '{selected_attribute}' as the attribute to search.")
 # prompt the user to enter the search value
 search_value = input(f"Enter the value to search in '{selected_attribute}': ")
 
+# record start time
+start_time = time.perf_counter()
+
 # perform exponential search to find the row indices with the matching value
 left, right = exponential_search(df[selected_attribute].values, search_value)
+
+# record end time
+end_time = time.perf_counter()
 
 # # retrieve the rows with the matching value in the selected attribute column
 # matching_rows = df.iloc[left:right+1]
@@ -67,3 +73,11 @@ for i in range(left, right+1):
 # print(result) for simple format 
 print("Matching rows:")
 print(pd.concat(result, axis=1).T)
+
+print()
+
+# calculate the execution time in milliseconds
+execution_time = (end_time - start_time) * 1000
+
+# print execution time
+print(f"Execution time: {execution_time:.2f} milliseconds")
