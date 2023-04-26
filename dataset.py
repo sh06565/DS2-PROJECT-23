@@ -1,9 +1,39 @@
 import pandas as pd
 
-# read the dataset
-df = pd.read_csv('companies_sorted.csv', nrows=0)
+# define the exponential search function
+def exponential_search(arr, x):
+    if arr[0] == x:
+        return 0, 0
+    i = 1
+    while i < len(arr) and arr[i] <= x:
+        i *= 2
+    left = i // 2
+    right = min(i, len(arr) - 1)
+    return binary_search(arr, left, right, x)
 
-# get all the column names/attributes
+# define the binary search function
+def binary_search(arr, left, right, x):
+    if right >= left:
+        mid = (left + right) // 2
+        if arr[mid] == x:
+            # find the range of rows with the matching value
+            start, end = mid, mid
+            while start > left and arr[start - 1] == x:
+                start -= 1
+            while end < right and arr[end + 1] == x:
+                end += 1
+            return start, end
+        elif arr[mid] > x:
+            return binary_search(arr, left, mid - 1, x)
+        else:
+            return binary_search(arr, mid + 1, right, x)
+    else:
+        return -1, -1
+
+# read the first 1 rows of the dataset
+df = pd.read_csv('companies_sorted.csv', nrows=1)
+
+# get all the column names/attributes except the first column
 attributes = df.columns.tolist()[1:]
 
 # print the attributes
@@ -17,3 +47,23 @@ selected_attribute = attributes[selected_attribute_index - 1]
 
 # print the selected attribute
 print(f"You have selected '{selected_attribute}' as the attribute to search.")
+
+# prompt the user to enter the search value
+search_value = input(f"Enter the value to search in '{selected_attribute}': ")
+
+# perform exponential search to find the row indices with the matching value
+left, right = exponential_search(df[selected_attribute].values, search_value)
+
+# # retrieve the rows with the matching value in the selected attribute column
+# matching_rows = df.iloc[left:right+1]
+
+result=[]
+# iterate over the rows in the returned range and check if each row has the desired value
+for i in range(left, right+1):
+    if df[selected_attribute][i] == search_value:
+        result.append(df.iloc[i])
+
+# print the matching rows
+# print(result) for simple format 
+print("Matching rows:")
+print(pd.concat(result, axis=1).T)

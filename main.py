@@ -47,7 +47,7 @@ def go_to_another_page():
                                 'Column 5': [col5_val]})
 
         # append the new row to the csv file
-        with open('Data(with tags).csv', 'a') as f:
+        with open('companies_sorted.csv', 'a') as f:
             new_row.to_csv(f, header=False, index=False)
 
         # update the treeview with the new data
@@ -111,7 +111,7 @@ def go_to_another_page():
     treeview.place(relx=0.5, rely=0.75, anchor="center")
 
     # load data from a csv file
-    data = pd.read_csv("Data(with tags).csv")
+    data = pd.read_csv("companies_sorted.csv")
     
     # set up columns and headings for the treeview
     treeview["columns"] = list(data.columns)
