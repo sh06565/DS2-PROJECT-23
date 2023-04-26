@@ -31,10 +31,13 @@ def binary_search(arr, left, right, x):
         return -1, -1
 
 # read the first 1 rows of the dataset
-df = pd.read_csv('companies_sorted.csv', nrows=1)
+attr = pd.read_csv('companies_sorted.csv', nrows=1)
+
+# read the data set 
+df = pd.read_csv('companies_sorted.csv', nrows=7000000)
 
 # get all the column names/attributes except the first column
-attributes = df.columns.tolist()[1:]
+attributes = attr.columns.tolist()[1:]
 
 # print the attributes
 print("List of attributes:")
@@ -54,6 +57,7 @@ search_value = input(f"Enter the value to search in '{selected_attribute}': ")
 # record start time
 start_time = time.perf_counter()
 
+print(type(df[selected_attribute].values[1]))
 # perform exponential search to find the row indices with the matching value
 left, right = exponential_search(df[selected_attribute].values, search_value)
 
@@ -63,16 +67,19 @@ end_time = time.perf_counter()
 # # retrieve the rows with the matching value in the selected attribute column
 # matching_rows = df.iloc[left:right+1]
 
-result=[]
-# iterate over the rows in the returned range and check if each row has the desired value
-for i in range(left, right+1):
-    if df[selected_attribute][i] == search_value:
-        result.append(df.iloc[i])
-
-# print the matching rows
-# print(result) for simple format 
-print("Matching rows:")
-print(pd.concat(result, axis=1).T)
+if left == -1 and right == -1:
+    print("Search value does not exist")
+else:
+    result=[]
+    # iterate over the rows in the returned range and check if each row has the desired value
+    for i in range(left, right+1):
+        if df[selected_attribute][i] == search_value:
+            result.append(df.iloc[i])
+    # print the matching rows
+    # print(result) for simple format 
+    print("Matching rows:")
+    print(pd.concat(result, axis=1).T)
+    
 
 print()
 
