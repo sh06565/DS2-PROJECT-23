@@ -2,11 +2,15 @@ import tkinter as tk
 import pandas as pd
 from tkinter import ttk
 import time
-
+from exponential import Search
 
 # create the main window
 root = tk.Tk()
 root.title("Enterprise Oracle")
+root.geometry("%dx%d+0+0" % (root.winfo_screenwidth(), root.winfo_screenheight()))
+
+# set the window attributes
+root.attributes('-fullscreen', True)
 
 # set the window size and background image
 bg_image = tk.PhotoImage(file="images/ds2pic.png")
@@ -20,9 +24,15 @@ title_label.pack(pady=50)
 
 # add a button to go to another page
 def go_to_another_page():
+    #make a button to close the new_window page
     # create a new window
     new_window = tk.Toplevel(root)
     new_window.title("Another Page")
+    # set the window size and position
+    new_window.geometry("%dx%d+0+0" % (new_window.winfo_screenwidth(), new_window.winfo_screenheight()))
+
+# set the window attributes
+    new_window.attributes('-fullscreen', True)
 
     # set the window size and background image
     bg_image = tk.PhotoImage(file="images/ds2pic.png")
@@ -38,26 +48,40 @@ def go_to_another_page():
         col3_val = col3_entry.get()
         col4_val = col4_entry.get()
         col5_val = col5_entry.get()
+        col6_val = col6_entry.get()
+        col7_val = col7_entry.get()
+        col8_val = col8_entry.get()
+        col9_val = col9_entry.get()
+        col10_val = col10_entry.get()
+
 
         # create a new row with the values entered
         new_row = pd.DataFrame({'Column 1': [col1_val],
                                 'Column 2': [col2_val],
                                 'Column 3': [col3_val],
                                 'Column 4': [col4_val],
-                                'Column 5': [col5_val]})
+                                'Column 5': [col5_val],
+                                'Column 6': [col6_val],
+                                'Column 7': [col7_val],
+                                'Column 8': [col8_val],
+                                'Column 9': [col9_val],
+                                'Column 10': [col10_val]              
+                                })
+        
 
         # append the new row to the csv file
         with open('companies_sorted.csv', 'a') as f:
             new_row.to_csv(f, header=False, index=False)
 
         # update the treeview with the new data
-        treeview.insert("", "end", values=[col1_val, col2_val, col3_val, col4_val, col5_val])
+        treeview.insert("", "end", values=[col1_val, col2_val, col3_val, col4_val, col5_val, col6_val])
 
     add_button = tk.Button(new_window, text="Add Data", font=("Arial", 14), bg="#2C3E50", fg="white", 
                         activebackground="#34495E", activeforeground="white", 
                         bd=0, highlightthickness=0, padx=10, pady=5, 
                         command=add_data)
     add_button.place(relx=0.5, rely=0.3, anchor="center")
+    
 
     # add entry boxes for each column of the csv file
     col1_entry = tk.Entry(new_window, width=20)
@@ -70,6 +94,17 @@ def go_to_another_page():
     col4_entry.place(relx=0.7, rely=0.4, anchor="center")
     col5_entry = tk.Entry(new_window, width=20)
     col5_entry.place(relx=0.85, rely=0.4, anchor="center")
+    col6_entry = tk.Entry(new_window, width=20)
+    col6_entry.place(relx=0.95, rely=0.4, anchor="center")
+    col7_entry = tk.Entry(new_window, width=20)
+    col7_entry.place(relx=0.25, rely=0.5, anchor="center")
+    col8_entry = tk.Entry(new_window, width=20)
+    col8_entry.place(relx=0.4, rely=0.5, anchor="center")
+    col9_entry = tk.Entry(new_window, width=20)
+    col9_entry.place(relx=0.55, rely=0.5, anchor="center")
+    col10_entry = tk.Entry(new_window, width=20)
+    col10_entry.place(relx=0.7, rely=0.5, anchor="center")
+
 
     
     # add a button to go back to the main page
@@ -104,7 +139,7 @@ def go_to_another_page():
     search_time = tk.StringVar()
     search_time_entry = tk.Entry(new_window, textvariable=search_time, width=10)
     search_time_entry.place(relx=0.25, rely=0.3, anchor="w")
-
+    
 
     # add a treeview to display data from a csv file
     treeview = ttk.Treeview(new_window)
